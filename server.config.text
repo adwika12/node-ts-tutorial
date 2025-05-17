@@ -1,0 +1,116 @@
+
+npm init -y
+
+npm install typescript @types/node --save-dev
+npx tsc --init
+
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "resolveJsonModule":true,
+    "skipLibCheck":true
+
+   
+  },
+  "lib": ["es2017"],
+  "include": [
+    ".", // Include TypeScript source files
+    "src/locales/**/*.json"
+
+  ]
+}
+
+
+
+npm install ts-node --save-dev
+
+
+npm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
+npm install prettier eslint-config-prettier eslint-plugin-prettier --save-dev
+
+
+
+npm install express
+npm install @types/express @types/node --save-dev
+
+ .eslintrc.json  file name
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "overrides": [
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+    }
+}
+
+
+"scripts": {
+    "start": "node  dist/server",
+    "build": "rm -rf ./dist && npx tsc && ts-node copyStaticAssets.ts",
+    "watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec ts-node  server.ts",
+    "dev": "npx ts-node-dev server.ts",
+   
+}
+
+npm install express
+npm install @types/express @types/node --save-dev
+
+src/app.ts //
+
+import express, { Application as ExApplication } from 'express';
+
+
+class Application {
+    private readonly _instance: ExApplication;
+    get instance(): ExApplication {
+        return this._instance;
+    };
+    constructor() {
+        this._instance = express();
+        this._instance.use(express.json({ limit: "150mb" }));
+        this._instance.use(express.urlencoded({ limit: "150mb", extended: true }));
+      
+    };
+
+   
+}
+
+
+export default new Application()
+
+  server.ts
+
+import application from './src/app';
+import * as http from 'http';
+import {Server as S} from 'http'
+const server:S = http.createServer(application.instance);
+const PORT = 3000
+server.listen(PORT, () => {
+   
+    console.log(`Server started and running on http://localhost:${PORT}} time:${new Date()}`)
+});
+  
+
+
