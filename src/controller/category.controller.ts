@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 import CategoryService from "../services/category.service";
+import { categoryValidation } from "../validation/category.validation"; // 🔹 Import validation
 
 class CategoryController {
   async create(req: Request, res: Response) {
     try {
+      const { error } = categoryValidation.validate(req.body); // 🔹 Validate
+      if (error) {
+        return res.status(400).json({ status: 400, message: error.details[0].message });
+      }
+
       const category = await CategoryService.createCategory(req.body);
       return res.status(201).json({ status: 201, message: "Created", category });
     } catch (error) {
@@ -35,6 +41,11 @@ class CategoryController {
 
   async update(req: Request, res: Response) {
     try {
+      const { error } = categoryValidation.validate(req.body); // 🔹 Optional: Validate update
+      if (error) {
+        return res.status(400).json({ status: 400, message: error.details[0].message });
+      }
+
       const category = await CategoryService.updateCategory(req.params.id, req.body);
       return res.status(category ? 200 : 404).json({
         status: category ? 200 : 404,

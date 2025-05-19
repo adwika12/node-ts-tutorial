@@ -1,6 +1,8 @@
 import express, { Application as ExApplication } from 'express';
 import UserController from './controller/user.controller';
 import CategoryController from './controller/category.controller';
+import { validate } from './middleware/validate';
+import { categoryValidation } from './validation/category.validation';
 
 class Application {
   private readonly _instance: ExApplication;
@@ -21,7 +23,12 @@ class Application {
   routes() {
     this._instance.get("/api/v1/users", this._UserController.userList);
 
-    this._instance.post("/api/v1/categories", this._CategoryController.create);
+    this._instance.post(
+      "/api/v1/categories",
+      validate(categoryValidation),
+      this._CategoryController.create
+    );
+
     this._instance.get("/api/v1/categories", this._CategoryController.findAll);
     this._instance.get("/api/v1/categories/:id", this._CategoryController.findOne);
     this._instance.put("/api/v1/categories/:id", this._CategoryController.update);
