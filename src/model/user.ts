@@ -1,23 +1,16 @@
-import  { model, Schema } from 'mongoose';
-import * as UserInterface from '../interface/user';
-// Define User Schema Interface
+import mongoose, { Schema, Document } from 'mongoose';
+import { IUser } from '../interface/user'; // adjust path & interface name
 
-
-const schema = new Schema<UserInterface.IUser>({
-    email:{
-         type:Schema.Types.String
-    },
-    password:{
-        type:Schema.Types.String
-    },
-    email_otp:{
-        type:Schema.Types.Number
-    },
-    email_status:{
-        type:Schema.Types.Boolean,
-    },
-    isActive:{
-        type:Schema.Types.Boolean
-    }
+const UserSchema: Schema = new Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  email_otp: { type: Number },
+  email_status: { type: Boolean, default: false },
+  isActive: { type: Boolean, default: true }
+}, {
+  timestamps: true
 });
-export const UserModel = model<UserInterface.IUser>("auth", schema);
+
+const UserModel = mongoose.model<IUser & Document>('User', UserSchema);
+
+export default UserModel;
