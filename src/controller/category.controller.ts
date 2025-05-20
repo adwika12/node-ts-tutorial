@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import CategoryService from "../services/category.service";
-import { categoryValidation } from "../validation/category.validation"; // 🔹 Import validation
+import { categoryValidation } from "../validation/category.validation";
 
 class CategoryController {
   async create(req: Request, res: Response) {
     try {
-      const { error } = categoryValidation.validate(req.body); // 🔹 Validate
+      const { error } = categoryValidation.validate(req.body);
       if (error) {
         return res.status(400).json({ status: 400, message: error.details[0].message });
       }
@@ -41,7 +41,7 @@ class CategoryController {
 
   async update(req: Request, res: Response) {
     try {
-      const { error } = categoryValidation.validate(req.body); // 🔹 Optional: Validate update
+      const { error } = categoryValidation.validate(req.body); 
       if (error) {
         return res.status(400).json({ status: 400, message: error.details[0].message });
       }

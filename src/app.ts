@@ -2,7 +2,7 @@ import express, { Application as ExApplication } from 'express';
 import CategoryController from './controller/category.controller';
 import { validate } from './middleware/validate';
 import { categoryValidation } from './validation/category.validation';
-import userRoutes from './routes/user.routes'; // ✅ Make sure this is correct
+import userRoutes from './routes/user.routes'; 
 
 class Application {
   private readonly _instance: ExApplication;
@@ -20,7 +20,7 @@ class Application {
   }
 
   routes() {
-    this._instance.use('/api/v1', userRoutes); // ✅ Correct route prefix
+    this._instance.use('/api/v1', userRoutes); 
 
     this._instance.post(
       "/api/v1/categories",
